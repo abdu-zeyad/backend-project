@@ -26,6 +26,7 @@ const Item = mongoose.model("Items", itemSchema);
 app.post("/post", postHandler);
 app.get("/all", getAll);
 app.delete("/delete", deleteitem);
+app.put("/update", updatehandler);
 /// ///// handlers////////////
 
 function postHandler(req, res) {
@@ -48,6 +49,21 @@ function deleteitem(req, res) {
   Item.deleteOne({ _id: id }, (err, data) => {
     Item.find({}, (err, data) => {
       res.send(data);
+    });
+  });
+}
+
+function updatehandler(req, res) {
+  console.log(req.body);
+  const { name, age, id } = req.body;
+
+  Item.find({ _id: id }, (err, data) => {
+    data[0].name = name;
+    data[0].age = age;
+    data[0].save().then(() => {
+      Item.find({}, (err, data) => {
+        res.send(data);
+      });
     });
   });
 }
