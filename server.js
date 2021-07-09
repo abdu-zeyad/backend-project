@@ -27,6 +27,7 @@ app.post("/post", postHandler);
 app.get("/all", getAll);
 app.delete("/delete", deleteitem);
 app.put("/update", updatehandler);
+app.get("/itempage", itempage);
 /// ///// handlers////////////
 
 function postHandler(req, res) {
@@ -65,6 +66,13 @@ function updatehandler(req, res) {
         res.send(data);
       });
     });
+  });
+}
+function itempage(req, res) {
+  const id = req.query.id;
+
+  Item.find({ _id: id }, (err, data) => {
+    res.send(data);
   });
 }
 //  /  ///
